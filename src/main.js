@@ -1,8 +1,9 @@
 
 import path from 'path'
 import { argv } from './_argv.js'
-import { build,readBuildJson,updateFromBuildJson,writeBuildJson } from './_build.js'
-import { STATUS,STATUS_MSG,__dirname } from './constants/index.js'
+import { build,updateFromBuildJson } from './_build.js'
+import { STATUS,__dirname } from './constants/index.js'
+import { checkDirExist,logResult,readBuildJson,writeBuildJson } from './utils/index.js'
 
 const idType = (argv.idType ?? argv.t)
 let idPre = argv.idPre ?? argv.p
@@ -12,6 +13,13 @@ const files = argv._
 const jsonPath = path.join(outputPath,'./_build.json')
 
 if (files.length === 0) throw Error('请输入文件路径')
+
+
+
+
+
+
+
 
 // console.log('files',files)
 
@@ -32,42 +40,28 @@ const getId = (() => {
 async function main() {
 
   const resulstList = []
-  let id,_file
 
   try {
+    await checkDirExist(outputPath)
     const buildJson = await readBuildJson(jsonPath)
     for (const file of files) {
-      id = getId(file)?.toLowerCase()
+      let id = getId(file)?.toLowerCase()
       if (!id) {
         resulstList.push({ file,status: STATUS.ID_ERROR,id: 'ID_ERROR' })
         continue
       }
       if (idPre) id = `${idPre}-${id}`
-      _file = file
 
       const { status } = await build({ vueFilePath: file,id,buildJson,renderMode })
       resulstList.push({ file,status,id })
     }
     await writeBuildJson(buildJson,jsonPath)
     await updateFromBuildJson(buildJson,outputPath)
-
-
+    logResult(resulstList)
   } catch (error) {
     console.error(error)
-    resulstList.push({ file: _file,status: STATUS.ERROR,id })
+    process.exit(1)
   }
-
-  console.info([
-    '***************************************',
-    '**********************************',
-    '*',
-    ...resulstList.map(item => `*  ${item.status}  ${item.id}  ${item.file}   ${STATUS_MSG[item.status]}`),
-    '*',
-    '**********************************',
-    '***************************************'
-  ].join('\r\n'))
-
-
 }
 
 main()

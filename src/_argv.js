@@ -21,6 +21,6 @@ export const argv = yargs(process.argv.slice(2))
     alias: 'o',
     describe: '指定打包后组件的 index.js和index.css 输出路径',
     type: 'string',
-  })
+  }).option('help',{ alias: 'h' })
   .argv;
 

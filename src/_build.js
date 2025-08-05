@@ -1,11 +1,11 @@
 import { compileScript,compileStyle,compileTemplate,parse } from '@vue/compiler-sfc'
 import * as cheerio from 'cheerio'
 import { createHash } from 'crypto'
-import { access,mkdir,readFile,stat,writeFile } from 'fs/promises'
+import { readFile } from 'fs/promises'
 import less from 'less'
 import path from 'path'
 import { STATUS,__dirname } from './constants/index.js'
-
+import { writeFileSmartAsync } from './utils/index.js'
 
 
 /**
@@ -13,76 +13,6 @@ import { STATUS,__dirname } from './constants/index.js'
  * @typedef {{ids:string[],components:Record<string,{scriptStr:string,styleStr:string,hash:string}>}} BuildJson
  */
 
-
-async function writeFileSmartAsync(filePath,content,{
-  overwrite = false,
-  separator = '\r\n',
-  encoding = 'utf8',
-} = {}) {
-  const normalizedPath = path.normalize(filePath)
-  const dirPath = path.dirname(normalizedPath)
-
-  try {
-    // 1. 确保目录存在
-    await mkdir(dirPath,{ recursive: true })
-    // 2. 处理文件存在情况
-    try {
-      const stats = await stat(normalizedPath)
-      if (stats.isFile()) {
-        if (overwrite) {
-          await writeFile(normalizedPath,content,encoding)
-        } else {
-          // 追加内容
-          const existingContent = await readFile(normalizedPath,'utf-8')
-          const newContent = existingContent +
-            (existingContent.endsWith(separator) ? '' : separator) + content
-          await writeFile(normalizedPath,newContent,encoding)
-        }
-      }
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        // 3. 文件不存在直接创建
-        await writeFile(normalizedPath,content,encoding)
-      } else {
-        throw err
-      }
-    }
-  } catch (err) {
-    throw new Error(`File operation failed: ${err.message}`)
-  }
-}
-
-// #region 读写_build.json
-export async function readBuildJson(jsonPath = path.join(__dirname,'./_build.json')) {
-  const jsonTemplate = {
-    ids: [],
-    components: {}
-  }
-  return new Promise((res,rej) => {
-    access(jsonPath).then(async () => {
-      try {
-        const optionStr = await readFile(jsonPath,'utf8') || '{}'
-        const option = JSON.parse(optionStr);
-        res(option || jsonTemplate)
-
-      } catch (error) {
-        rej('Error reading _build.json: ' + error)
-      }
-    }).catch(() => res(jsonTemplate))
-  })
-
-}
-export async function writeBuildJson(opiton,jsonPath = path.join(__dirname,'./_build.json')) {
-  try {
-    const jsonStr = JSON.stringify(opiton,null,2);
-    await writeFile(jsonPath,jsonStr,'utf8');
-  } catch (error) {
-    console.error('Error writing _build.json:',error);
-    throw Error('Error writing _build.json')
-  }
-}
-
-// #endregion
 
 
 
@@ -162,12 +92,12 @@ async function _compile({ sfcSource,hash }) {
     preprocessLang: '', // 预处理器语言（如 pug）
     preprocessOptions: {}, // 预处理器选项
     compilerOptions: {
-      nodeTransforms: [addScopedIdTransform(hashId)]
+      // nodeTransforms: [addScopedIdTransform(hashId)]
     }
 
   });
 
-  debugger
+  // debugger
 
   if (scoped) templateCompileResult.templateStr = addAttrToTemplateDeep(templateCompileResult.source,`data-v-${hashId}`)
   else templateCompileResult.templateStr = templateCompileResult.source
@@ -193,6 +123,7 @@ function generateComponentScriptStr({ id = 'MyComponent',
 }) {
 
   // debugger
+  /** template中字符串模板需要 字符串转义 */
   templateStr = templateStr.replaceAll('`','\\`').replaceAll('$','\\$')
   const compStr = `/*
 * 组件名： ${id}
@@ -230,7 +161,7 @@ function generateRenderStr(templateCompileResult) {
   const s1 = `const ${p1.match(/\{.+\}/)[0].replaceAll(' as ',':')} = window.renderTools.renderTools`
   const [p4,p5] = p3.split(/(?<=export function render\(_ctx, _cache\) \{)\n/)
 
-  debugger
+  // debugger
   const renderFnStr = `${p4.replace('export function ','')}
     ${s1};
     ${p2}
@@ -264,10 +195,11 @@ function addAttrToTemplateDeep(templateStr,key,val = '') {
 async function _build({ vueFilePath,id,updateTime,sfcSource,hash,renderMode }) {
 
   const { scriptCompileResult,templateCompileResult,styleCompileResult } = await _compile({ sfcSource,hash })
+  const scriptResult = scriptCompileResult.content.trim().match(/(?<=\{).+(?=\})/sg)[0] ?? ''
   // debugger
   const scriptStr = generateComponentScriptStr({
     id,vueFilePath,
-    scriptStr: scriptCompileResult.content.trim().match(/(?<=\{).+(?=\})/sg)[0] ?? '',
+    scriptStr: scriptResult,
     templateStr: templateCompileResult.templateStr,
     renderStr: renderMode ? generateRenderStr(templateCompileResult) : '',
     updateTime,
@@ -304,7 +236,6 @@ export async function build({ vueFilePath,id,buildJson = {},renderMode }) {
     }
     else {
       status = STATUS.OVERRIDE
-
     }
   }
   else { ids.push(id) }
@@ -318,7 +249,7 @@ export async function build({ vueFilePath,id,buildJson = {},renderMode }) {
 // buildAll()
 /**
  * 根据新的buildJson 内容更新index.css和index.js
- * @param {*} buildJson 
+ * @param {BuildJson} buildJson 
  * @returns 
  */
 export function updateFromBuildJson(buildJson = {},outputPath = __dirname) {
