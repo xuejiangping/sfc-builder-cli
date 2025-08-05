@@ -7,7 +7,10 @@ import path from 'path'
 import { STATUS,__dirname } from './constants/index.js'
 import { writeFileSmartAsync } from './utils/index.js'
 
+// debugger
 
+// 兼容打包后 less.default 的情况，打包后 less?.render() 会报错,此处必须处理
+const lessInstance = less?.render ? less : less?.default;
 /**
  * BuildJson 决定了 build.json保存组件信息 的结构
  * @typedef {{ids:string[],components:Record<string,{scriptStr:string,styleStr:string,hash:string}>}} BuildJson
@@ -69,7 +72,7 @@ async function _compile({ sfcSource,hash }) {
   let styleCode = descriptor.styles[0]?.content ?? ''
 
   if (lang == 'less') {
-    styleCode = (await less.render(styleCode,{})).css
+    styleCode = (await lessInstance.render(styleCode,{})).css
   }
 
   const styleCompileResult = compileStyle({
