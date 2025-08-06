@@ -5,7 +5,7 @@ export default {
   entry: './src/main.js',
   output: {
     path: path.resolve('dist'),
-    filename: 'build-sfc.min.cjs',
+    filename: 'sfc-builder-cli.min.cjs',
     libraryTarget: 'commonjs2'
   },
   // 添加 resolve 配置来解决 Node.js 内置模块解析问题

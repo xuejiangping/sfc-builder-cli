@@ -1,5 +1,5 @@
 <template>
-  <div>bbb111222</div>
+  <div>bbb</div>
 </template>
 <script>
 export default {

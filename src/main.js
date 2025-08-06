@@ -1,43 +1,53 @@
 
 import path from 'path'
-import { argv } from './_argv.js'
+import { command_argv } from './_argv.js'
 import { build,updateFromBuildJson } from './_build.js'
 import { STATUS,__dirname } from './constants/index.js'
 import { checkDirExist,logResult,readBuildJson,writeBuildJson } from './utils/index.js'
 
-const idType = (argv.idType ?? argv.t)
-let idPre = argv.idPre ?? argv.p
-const renderMode = argv.renderMode ?? argv.m;
-const outputPath = argv.outputPath ?? argv.o ?? __dirname;
-const files = argv._
-const jsonPath = path.join(outputPath,'./_build.json')
-
-if (files.length === 0) throw Error('请输入文件路径')
 
 
 
 
 
 
+// console.log('command_argv',command_argv)
 
 
-// console.log('files',files)
 
-const getId = (() => {
+switch (command_argv._[0]) {
+  case 'build':
+    start_build(command_argv)
+    break;
+  case 'clear':
+    start_clear(command_argv)
+    break;
+}
 
-  if (idType === 'dirName') {
-    return (filePath) => {
-      const parts = filePath.split('\\').reverse()
-      if (parts.length < 2) throw Error('dirName模式下必须包含上级的文件名')
-      return parts[1]
+
+async function start_build(argv) {
+
+  const idType = argv.idType
+  let idPre = argv.idPre
+  const renderMode = argv.renderMode
+  const outputPath = argv.outputPath ?? __dirname;
+  const files = argv.files ?? []
+  const jsonPath = path.join(outputPath,'./_build.json')
+
+  if (files.length === 0) throw Error('请输入文件路径')
+  const getId = (() => {
+
+    if (idType === 'dirName') {
+      return (filePath) => {
+        const parts = filePath.split('\\').reverse()
+        if (parts.length < 2) throw Error('dirName模式下必须包含上级的文件名')
+        return parts[1]
+      }
+    } else {
+      return (filePath) => filePath.match(/[^/\\]+(?=\.vue$)/)?.[0]
     }
-  } else {
-    return (filePath) => filePath.match(/[^/\\]+(?=\.vue$)/)?.[0]
-  }
-})();
+  })();
 
-
-async function main() {
 
   const resulstList = []
 
@@ -64,8 +74,10 @@ async function main() {
   }
 }
 
-main()
 
 
 
 
+function start_clear(argv) {
+  console.log('开始 clear')
+}

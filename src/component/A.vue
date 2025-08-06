@@ -1,5 +1,8 @@
 <template>
-  <div>aaa</div>
+  <div>aa111
+
+    <span>fuck</span>
+  </div>
 </template>
 <script>
 export default {
