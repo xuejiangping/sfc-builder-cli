@@ -1,14 +1,13 @@
 {
-  "name": "build-sfc",
+  "name": "sfc-builder-cli",
   "version": "1.0.0",
   "description": "",
   "main": "./src/main.js",
   "type": "module",
-  "bin": "./dist/build-sfc.min.cjs",
+  "bin": "/dist/sfc-builder-cli.min.cjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "pkg": "pkg . --targets node18-win-x64 --output dist/build-sfc.exe"
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
