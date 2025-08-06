@@ -4,8 +4,8 @@ import { createHash } from 'crypto'
 import { readFile } from 'fs/promises'
 import less from 'less'
 import path from 'path'
-import { STATUS,__dirname } from './constants/index.js'
-import { writeFileSmartAsync } from './utils/index.js'
+import { STATUS,__dirname } from '../constants/index.js'
+import { writeFileSmartAsync } from '../utils/index.js'
 
 // debugger
 

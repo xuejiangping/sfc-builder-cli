@@ -18,3 +18,5 @@ export const STATUS_MSG = {
 }
 
 export const __dirname = path.resolve()
+
+export const BUILD_JSON_NAME = '_build.json'

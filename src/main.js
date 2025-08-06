@@ -1,18 +1,8 @@
 
 import path from 'path'
-import { command_argv } from './_argv.js'
-import { build,updateFromBuildJson } from './_build.js'
-import { STATUS,__dirname } from './constants/index.js'
+import { BUILD_JSON_NAME,STATUS } from './constants/index.js'
+import { build,clear,command_argv,updateFromBuildJson } from './lib/index.js'
 import { checkDirExist,logResult,readBuildJson,writeBuildJson } from './utils/index.js'
-
-
-
-
-
-
-
-// console.log('command_argv',command_argv)
-
 
 
 switch (command_argv._[0]) {
@@ -27,12 +17,9 @@ switch (command_argv._[0]) {
 
 async function start_build(argv) {
 
-  const idType = argv.idType
-  let idPre = argv.idPre
-  const renderMode = argv.renderMode
-  const outputPath = argv.outputPath ?? __dirname;
-  const files = argv.files ?? []
-  const jsonPath = path.join(outputPath,'./_build.json')
+  const { idType,idPre,renderMode,outputPath,files } = argv
+  const jsonPath = path.join(outputPath,BUILD_JSON_NAME)
+
 
   if (files.length === 0) throw Error('请输入文件路径')
   const getId = (() => {
@@ -46,12 +33,12 @@ async function start_build(argv) {
     } else {
       return (filePath) => filePath.match(/[^/\\]+(?=\.vue$)/)?.[0]
     }
-  })();
+  })();;
 
 
-  const resulstList = []
 
   try {
+    const resulstList = []
     await checkDirExist(outputPath)
     const buildJson = await readBuildJson(jsonPath)
     for (const file of files) {
@@ -78,6 +65,13 @@ async function start_build(argv) {
 
 
 
-function start_clear(argv) {
-  console.log('开始 clear')
+async function start_clear(argv) {
+
+  const clearPath = argv.clearPath
+  try {
+    await clear(clearPath)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
 }

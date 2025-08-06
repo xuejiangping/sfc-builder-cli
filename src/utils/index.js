@@ -100,7 +100,7 @@ export async function checkDirExist(dirPath,create = true) {
     if (!stats.isDirectory()) throw Error(`${dirPath} is not a directory`,{ cause: 'not_a_directory' })
   } catch (error) {
     if (error.cause === 'not_a_directory') throw error
-    else if (create) await mkdir(dirPath)
+    else if (create) await mkdir(dirPath,{ recursive: true })
     else throw error
   }
 
