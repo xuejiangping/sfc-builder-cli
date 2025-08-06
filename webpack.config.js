@@ -10,25 +10,25 @@ export default {
   },
   // 添加 resolve 配置来解决 Node.js 内置模块解析问题
   resolve: {
-    // 当 target 设置为 node 时，webpack 会默认将 node 内置模块（如 path、fs 等）作为外部依赖处理
-    // 若非node,则会将 path、fs 等模块作为外部依赖处理
+    /**************************************************
+    *  fallback 配置选项，当正常解析失败时，重定向模块请求
+    * 
+    * 当前项目中，当编译的 target 设置为 node 时，webpack 会默认将 node 内置模块（如 path、fs 等）作为外部依赖处理
+    * 如果target为浏览器或类似的环境,若使用node中的模块，需要添加对应的resolve.alias
+    * 
+     **************************************************/
     fallback: {
-      // "path": false,
+      // path: require.resolve('path-browserify'),
       // "fs": false,
       // "crypto": false,
-      // "module": false,
-      // "os": false,
-      // 'util': false,
-      // 'url': false,
-      // 'assert': false,
-      // 'node:module': false,
-      // 'node:fs': false,
-
     },
     alias: {
-      // 为可选依赖提供空的别名,不然打包会build'会依赖报错
-      // 这些依赖属于可选依赖，只有在 @vue/compiler-sfc 引用时才会被解析
-      // 当前项目不需要这些依赖，所以需要忽略
+
+      /**************************************************
+      * 将 resolve.alias 设置为 false 将告知 webpack 忽略模块
+      * 以下这些依赖属于 @vue/compiler-sfc  可选依赖，只有它们被引用时才会被解析
+      * 当前项目中不需要使用他们，必须将他们忽略，不然打包build 会依赖报错
+       **************************************************/
       'react': false,
       'vash': false,
       'slm': false,
@@ -86,10 +86,19 @@ export default {
     },
   },
   target: ['node'],
-  // externals: {
-  //   // 将整个 @vue/compiler-sfc 标记为外部依赖
-  //   '@vue/compiler-sfc': 'commonjs @vue/compiler-sfc',
-  // }
+  externals: {
+
+    /**************************************************
+    *
+    *  ${externalsType} ${libraryName} 语法，
+    *  即构建结果中的依赖会用 ${libraryName} 引用，引用方法由externalsType决定
+    *  如：'commonjs @vue/compiler-sfc' 构建结果为：require('@vue/compiler-sfc')
+    *
+     **************************************************/
+
+
+    //   '@vue/compiler-sfc': 'commonjs @vue/compiler-sfc',
+  }
 
 
 }
