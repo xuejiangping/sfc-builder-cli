@@ -277,7 +277,8 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 1.  安装插件
 
-    vscode 插件市场搜索 "sfc-builder-vsce"，或者访问访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git，下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
+    vscode 插件市场搜索 "sfc-builder-vsce"，或者访问访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git
+    下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
 
 2.  启用插件
 
