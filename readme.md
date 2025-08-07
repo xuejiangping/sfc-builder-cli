@@ -36,6 +36,10 @@ static               // 静态目录，方便项目直接引用 dist中的index.
 > 1. 出于描述方便，后文中提到的 cli 工具，若非特定说明，均指代 sfc-builder-cli.min.cjs
 > 2. 开发环境中，提交代码只追踪 index.js 和 index.css 即可，编译相关文件不用提交
 
+## require
+
+    node >= 20.0.0
+
 ## 详情
 
 #### style 部分：
