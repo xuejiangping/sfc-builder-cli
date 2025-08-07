@@ -1,5 +1,5 @@
 <template>
-  <div>bbb</div>
+  <div>bbb111</div>
 </template>
 <script>
 export default {
@@ -8,6 +8,6 @@ export default {
 </script>
 <style scoped lang="less">
 .bb {
-  color: yellowgreen;
+  color: red;
 }
 </style>
