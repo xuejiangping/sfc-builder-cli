@@ -273,13 +273,14 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 1.  安装插件
 
-    目前插件并未上架 vscode 插件市场，需自行访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git，下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
+    目前插件并未上架 vscode 插件市场，需自行访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git
+    下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
 
 2.  启用插件
-    在 vscode 中，输入 `ctrl+shift+p` 打开命令面板，然后输入 `sfc-builder-build`命令并执行，即可启用插件。
 
+    在 vscode 中，输入 `ctrl+shift+p` 打开命令面板，然后输入 `sfc-builder-build`命令并执行，即可启用插件。
     插件会自动监听正在编辑且保存的 vue 文件，并自动执行 cli 工具构建
 
 3.  配置
 
-    插件支持 vscode ui 配置，可在 设置中搜索 "sfc-builder-vsce"
+    插件支持 vscode ui 配置，可在 设置中搜索 "sfc-builder-vsce"查看详细配戏
