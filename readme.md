@@ -10,7 +10,7 @@
 
 该工具为完全构建，除了基本的 node 环境外，不需要任何外部依赖，非常适合 内网开发、 cdn 等非工程化开发环境使用。
 
-该工具 已支持 [vscode 插件](https://gitee.com/xue6474/sfc-builder-vsce.git)使用，大大提高了易用性，强烈推荐。详情查看:https://gitee.com/xue6474/sfc-builder-vsce.git
+该工具已上线 vscode 插件市场[sfc-builder-vsce](https://gitee.com/xue6474/sfc-builder-vsce.git)，大大提高了易用性和便捷性，强烈推荐
 
 **推荐目录结构**：
 
@@ -277,8 +277,7 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 1.  安装插件
 
-    目前插件并未上架 vscode 插件市场，需自行访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git
-    下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
+    vscode 插件市场搜索 "sfc-builder-vsce"，或者访问访问插件仓库：https://gitee.com/xue6474/sfc-builder-vsce.git，下载 release 目录下的 sfc-builder-vsce.vsix 安装即可
 
 2.  启用插件
 
