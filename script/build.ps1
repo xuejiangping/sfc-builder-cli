@@ -25,7 +25,7 @@ if (Test-Path $compPath ) {
   $vueFiles = (Get-ChildItem $compPath -Recurse -File -Include '*.vue' ).FullName
   $cmd = "node  $executeFile build --idType $idType --idPre $idPre -o $outputPath  $vueFiles" 
   if ($renderMode.IsPresent) { $cmd += " --renderMode" }
-  echo $cmd
+  # echo $cmd
 
   Invoke-Expression $cmd
 }
