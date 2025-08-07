@@ -1,9 +1,15 @@
 <template>
-  <div>bbb111</div>
+  <div>
+    <h1>123132231211 2</h1>
+  </div>
 </template>
 <script>
 export default {
+  methods: {
+    aa() {
 
+    }
+  }
 }
 </script>
 <style scoped lang="less">
