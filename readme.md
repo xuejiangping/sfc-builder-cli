@@ -249,9 +249,9 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 相对于直接通过 node 使用 cli 工具,build.ps1 提供了更多功能：
 
-1. 可以指定整个组件目录，通过 -compPath,可以指定整个组件目录，脚本会递归遍历(`Get-ChildItem $compPath -Recurse -File -Include '*.vue'`)整个目录下所有 vue 文件，再调用 cli 工具，类似：`node sfc-builder-cli.min.cjs build a.vue b.b.vue c.vue`
+1. 可以指定整个组件目录，通过 -compPath,可以指定整个组件目录，脚本会递归遍历(`Get-ChildItem $compPath -Recurse -File -Include '*.vue'`)整个目录下所有 vue 文件，再调用 cli 工具，类似：`node sfc-builder-cli.min.cjs build a.vue b.vue c.vue`
 
-2. 重置输出目录，有些时候，我们需要再构建之前先清空输出目录（`outputPath`），可以添加 -reset 参数，清空输出目录
+2. 重置输出目录，有些时候，我们需要在构建之前先清空输出目录（`outputPath`），可以添加 -reset 参数，清空输出目录
 
 > 参数说明：
 
