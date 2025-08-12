@@ -273,7 +273,7 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 `sfc-builder-vsce` 是专门为了在 vscode 中使用 cli 工具的插件，它非常易用且高效
 
-##### 使用说明
+##### 说明
 
 1.  安装插件
 
