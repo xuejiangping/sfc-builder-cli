@@ -287,4 +287,4 @@ build.ps1 -idType dirName -idPre x -compPath ./comp/  -executeFile sfc-builder-c
 
 3.  配置
 
-    插件支持 vscode ui 配置，可在 设置中搜索 "sfc-builder-vsce"查看详细配戏
+    插件支持 vscode ui 配置，可在 设置中搜索 "sfc-builder-vsce"查看详细配置

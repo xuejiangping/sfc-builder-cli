@@ -4,7 +4,7 @@ export default {
   mode: 'production',
   entry: './src/main.js',
   output: {
-    path: path.resolve('dist'),
+    path: path.resolve('bin'),
     filename: 'sfc-builder-cli.min.cjs',
     libraryTarget: 'commonjs2'
   },
