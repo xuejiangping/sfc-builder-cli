@@ -1,3 +1,4 @@
+import { createHash } from 'crypto'
 import { access,mkdir,readFile,stat,writeFile } from 'fs/promises'
 import path from 'path'
 import { STATUS_MSG } from "../constants/index.js"
@@ -106,4 +107,9 @@ export async function checkDirExist(dirPath,create = true) {
 
 
 
+}
+
+
+export function createMd5(data) {
+  return createHash('md5').update(data).digest('hex')
 }

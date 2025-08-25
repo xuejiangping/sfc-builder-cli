@@ -1,11 +1,10 @@
 import { compileScript,compileStyle,compileTemplate,parse } from '@vue/compiler-sfc'
 import * as cheerio from 'cheerio'
-import { createHash } from 'crypto'
 import { readFile } from 'fs/promises'
 import less from 'less'
 import path from 'path'
 import { STATUS,__dirname } from '../constants/index.js'
-import { writeFileSmartAsync } from '../utils/index.js'
+import { createMd5,writeFileSmartAsync } from '../utils/index.js'
 
 // debugger
 
@@ -49,9 +48,7 @@ function addScopedIdTransform(scopedId) {
   };
 }
 
-function createMd5(data) {
-  return createHash('md5').update(data).digest('hex')
-}
+
 /**
  * vue文件内容
  */
@@ -179,7 +176,7 @@ function generateRenderStr(templateCompileResult) {
  */
 function addAttrToTemplateDeep(templateStr,key,val = '') {
   const $ = cheerio.load(templateStr,{ quirksMode: true },false)
-  const nativeHtmlTags = [
+  const nativeHtmlTags = ['abcd',
     'a','abbr','address','area','article','aside','audio','b',
     'br','button','canvas','caption','code','dd','del',
     'dialog','div','dl','dt','em','embed','fieldset','footer','form','h1','h2',
@@ -267,8 +264,3 @@ export function updateFromBuildJson(buildJson = {},outputPath = __dirname) {
     writeFileSmartAsync(path.join(outputPath,'./index.js'),scriptArr.join('\r\n'),{ overwrite: true })
   ])
 }
-
-
-
-
-

@@ -4,7 +4,7 @@
   "description": "一个用于 编译 vue 单文件组件为全局组件的 cli 命令行工具，该工具使用`vue` 官方工具包[@vue/compiler-sfc](`@vue/compiler-sfc`) 模块，编译选项式 api 风格的 `.vue` 文件为全局组件",
   "main": "./src/main.js",
   "type": "module",
-  "bin": "/dist/sfc-builder-cli.min.cjs",
+  "bin": "bin/sfc-builder-cli.min.cjs",
   "engines": {
     "node": ">=20.0.0"
   },
