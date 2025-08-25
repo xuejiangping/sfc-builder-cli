@@ -1,22 +1,11 @@
 import { createHash } from 'crypto'
 import { access,mkdir,readFile,stat,writeFile } from 'fs/promises'
 import path from 'path'
-import { STATUS_MSG } from "../constants/index.js"
+import { STATUS_MSG } from '../constants/index.js'
 
 
 export function logResult(resulstList = []) {
-
-  const infoStr = [
-    '***************************************',
-    '*',
-    '*',
-    ...resulstList.map(item => `*  ${item.status}  ${item.id}  ${item.file}   ${STATUS_MSG[item.status]}`),
-    '*',
-    '*',
-    '***************************************'
-  ].join('\r\n')
-
-  console.info(infoStr)
+  console.table(resulstList,['status','id','file','msg'])
 }
 
 
@@ -112,4 +101,22 @@ export async function checkDirExist(dirPath,create = true) {
 
 export function createMd5(data) {
   return createHash('md5').update(data).digest('hex')
+}
+
+export function getId(idType,filePath) {
+  const { name,ext,dir } = path.parse(path.normalize(filePath))
+  if (ext !== '.vue') throw Error('filePath必须包含 vue文件: ' + filePath)
+  const dirArr = dir.split(path.sep)
+  if (!dir || dirArr.length == 0) throw Error('dirName模式下必须包含上级目录名: ' + filePath)
+  return idType === 'dirName' ? dirArr.pop() : name
+}
+
+
+export class Result {
+  constructor({ file,status,id,msg }) {
+    this.file = file
+    this.status = status
+    this.id = id
+    this.msg = msg || STATUS_MSG[status]
+  }
 }

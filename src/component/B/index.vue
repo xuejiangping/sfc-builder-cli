@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>123132231211 2</h1>
+    <h1>123132231211</h1>
   </div>
 </template>
 <script>
