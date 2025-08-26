@@ -1,10 +1,10 @@
-import path from 'path'
 /** @type {import('webpack').Configuration} */
 export default {
   mode: 'production',
   entry: './src/main.js',
   output: {
-    path: path.resolve('bin'),
+    // path: path.resolve('bin'),
+    path: 'D:/demo/sfc-builder-vsce/src/lib',
     filename: 'sfc-builder-cli.min.cjs',
     libraryTarget: 'commonjs2'
   },

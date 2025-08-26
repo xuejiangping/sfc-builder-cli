@@ -5,7 +5,7 @@ import { STATUS_MSG } from '../constants/index.js'
 
 
 export function logResult(resulstList = []) {
-  console.table(resulstList,['status','id','file','msg'])
+  console.table(resulstList,['id','status','file','msg'])
 }
 
 
@@ -54,21 +54,23 @@ export async function writeFileSmartAsync(filePath,content,{
 
 // #region 读写_build.json
 export async function readBuildJson(jsonPath = path.join(__dirname,'./_build.json')) {
-  const jsonTemplate = {
-    ids: [],
-    components: {}
-  }
+
   return new Promise((res,rej) => {
     access(jsonPath).then(async () => {
       try {
-        const optionStr = await readFile(jsonPath,'utf8') || '{}'
-        const option = JSON.parse(optionStr);
-        res(option || jsonTemplate)
-
+        const buildJson = JSON.parse(await readFile(jsonPath,'utf8'));
+        if (buildJson.ids && buildJson.components) res(buildJson)
+        else throw Error('_build.json格式错误')
       } catch (error) {
         rej('Error reading _build.json: ' + error)
       }
-    }).catch(() => res(jsonTemplate))
+    }).catch(() => {
+      const jsonTemplate = {
+        ids: [],
+        components: {}
+      }
+      res(jsonTemplate)
+    })
   })
 
 }

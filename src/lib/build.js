@@ -122,12 +122,12 @@ function generateComponentScriptStr({ id = 'MyComponent',
   renderStr,
 }) {
 
-  // debugger
   /** template中字符串模板需要 字符串转义 */
   templateStr = templateStr.replaceAll('`','\\`').replaceAll('$','\\$')
+  const showPath = vueFilePath.split(path.sep).slice(-2).join('/')
   const compStr = `/*
 * 组件名： ${id}
-* vue文件路径: ${vueFilePath}
+* vue文件路径: ${showPath}
 * 最后更新时间: ${updateTime}
  */
 Vue.component('${id}', {
@@ -246,7 +246,6 @@ export async function build({ vueFilePath,id,buildJson = {},renderMode }) {
 }
 
 
-// buildAll()
 /**
  * 根据新的buildJson 内容更新index.css和index.js
  * @param {BuildJson} buildJson 
@@ -260,7 +259,7 @@ export function updateFromBuildJson(buildJson = {},outputPath = __dirname) {
     scriptArr.push(scriptStr)
   }
   return Promise.all([
-    writeFileSmartAsync(path.join(outputPath,'./index.css'),styleArr.join('\r\n'),{ overwrite: true }),
-    writeFileSmartAsync(path.join(outputPath,'./index.js'),scriptArr.join('\r\n'),{ overwrite: true })
+    writeFileSmartAsync(path.join(outputPath,'index.css'),styleArr.join('\r\n'),{ overwrite: true }),
+    writeFileSmartAsync(path.join(outputPath,'index.js'),scriptArr.join('\r\n'),{ overwrite: true })
   ])
 }

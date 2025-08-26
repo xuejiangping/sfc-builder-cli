@@ -29,7 +29,7 @@ async function start_build(argv) {
       try {
         id = getId(idType,file).toLowerCase()
       } catch (error) {
-        console.warn(error)
+        // console.warn(error)
         resulstList.push(new Result(({ file,status: STATUS.ID_ERROR })))
         continue
       }
@@ -38,7 +38,7 @@ async function start_build(argv) {
         const { status } = await build({ vueFilePath: file,id,buildJson,renderMode })
         resulstList.push(new Result({ file,status,id }))
       } catch (error) {
-        console.warn(error)
+        // console.warn(error)
         resulstList.push(new Result({ file,status: STATUS.ERROR,id }))
       }
 
@@ -48,7 +48,6 @@ async function start_build(argv) {
     logResult(resulstList)
   } catch (error) {
     console.error(error)
-    process.exit(1)
   }
 }
 
