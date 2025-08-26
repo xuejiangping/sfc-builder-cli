@@ -1,7 +1,7 @@
 import { createHash } from 'crypto'
 import { access,mkdir,readFile,stat,writeFile } from 'fs/promises'
 import path from 'path'
-import { STATUS_MSG } from '../constants/index.js'
+import { BUILD_JSON_SCHEMA_URL,STATUS_MSG } from '../constants/index.js'
 
 
 export function logResult(resulstList = []) {
@@ -66,6 +66,7 @@ export async function readBuildJson(jsonPath = path.join(__dirname,'./_build.jso
       }
     }).catch(() => {
       const jsonTemplate = {
+        $schema: BUILD_JSON_SCHEMA_URL,
         ids: [],
         components: {}
       }

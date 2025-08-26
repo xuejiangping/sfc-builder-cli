@@ -21,3 +21,4 @@ export const __dirname = path.resolve()
 
 export const BUILD_JSON_NAME = '_build.json'
 
+export const BUILD_JSON_SCHEMA_URL = 'https://gitee.com/xue6474/sfc-builder-cli/raw/main/src/schema/_build.schema.json'

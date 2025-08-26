@@ -9,7 +9,7 @@
   "properties": {
     "ids": {
       "type": "array",
-      "description": "List of component IDs",
+      "description": "组件id 数组",
       "items": {
         "type": "string",
         "minLength": 1
@@ -17,7 +17,7 @@
     },
     "components": {
       "type": "object",
-      "description": "Component definitions with dynamic keys",
+      "description": "组件元信息",
       "additionalProperties": {
         "type": "object",
         "required": [
@@ -29,20 +29,19 @@
         "properties": {
           "scriptStr": {
             "type": "string",
-            "description": "JavaScript code or script content"
+            "description": "组件script 部分"
           },
           "styleStr": {
             "type": "string",
-            "default": "",
-            "description": "CSS style content (optional)"
+            "description": "组件style 部分"
           },
           "updateTime": {
             "type": "string",
-            "description": "Last update timestamp"
+            "description": "组件上次更新时间"
           },
           "hash": {
             "type": "string",
-            "description": "Hash of the component (no format restriction)"
+            "description": "组件文件hash值"
           }
         },
         "additionalProperties": false
